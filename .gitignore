@@ -1,0 +1,91 @@
+### Java ###
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+### Gradle ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+### VS Code ###
+.vscode/
+
+### Eclipse ###
+.classpath
+.project
+.settings/
+bin/
+
+### Spring Boot ###
+spring-boot-loader/
+rebel.xml
+
+### Environment variables / secrets ###
+.env
+.env.*
+!.env.example
+
+### Application secrets ###
+application-local.properties
+application-local.yml
+application-local.yaml
+application-secret.properties
+application-secret.yml
+application-secret.yaml
+
+### Logs ###
+logs/
+*.log
+
+### Database / local data ###
+*.db
+*.sqlite
+*.sqlite3
+
+### Docker local overrides ###
+docker-compose.override.yml
+
+### OS ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Temporary files ###
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+### Test / coverage ###
+coverage/
+jacoco.exec
+
+### Generated ###
+generated/
