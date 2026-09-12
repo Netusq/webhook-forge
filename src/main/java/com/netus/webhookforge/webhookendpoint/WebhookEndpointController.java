@@ -5,7 +5,6 @@ import com.netus.webhookforge.webhookendpoint.dto.WebhookEndpointResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +17,18 @@ class WebhookEndpointController {
     private final WebhookEndpointService service;
 
     @PostMapping("/api/v1/endpoints")
-    public ResponseEntity<WebhookEndpointResponse> createEndpoint(@RequestBody @Valid CreateEndpointRequest request){
-        WebhookEndpoint created = new WebhookEndpoint(request.name());
+    public ResponseEntity<WebhookEndpointResponse> createEndpoint(
+            @RequestBody @Valid CreateEndpointRequest request
+    ) {
+        WebhookEndpointResponse response =
+                service.createEndpoint(request.name());
 
-        WebhookEndpointResponse response = new WebhookEndpointResponse(created.getId(), created.getName());
-
-        return  ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
-    @GetMapping("/h/{id}")
+    @GetMapping("/api/v1/endpoints/{id}")
     public ResponseEntity<?> getEndpointByToken(@PathVariable String id){
         if (!isValidUuidV7(id)){
             return ResponseEntity

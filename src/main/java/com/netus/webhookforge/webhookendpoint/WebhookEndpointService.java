@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 class WebhookEndpointService {
+
     private final WebhookEndpointRepository repository;
 
     WebhookEndpointService(WebhookEndpointRepository repository) {
@@ -17,15 +19,23 @@ class WebhookEndpointService {
     @Transactional
     public WebhookEndpointResponse createEndpoint(String name) {
         WebhookEndpoint endpoint = new WebhookEndpoint(name);
+
         WebhookEndpoint saved = repository.save(endpoint);
 
-        return new WebhookEndpointResponse(saved.getId(), saved.getName());
+        return toResponse(saved);
     }
 
-    @Transactional(readOnly = true)
-    public WebhookEndpointResponse getEndpointById(UUID id){
-        return repository.findById(id)
-                .map(ednpoint -> new WebhookEndpointResponse(ednpoint.getId(), ednpoint.getName()))
+    public WebhookEndpointResponse getEndpointById(UUID id) {
+        WebhookEndpoint endpoint = repository.findById(id)
                 .orElseThrow(() -> new EndpointNotFoundException(id));
+
+        return toResponse(endpoint);
+    }
+
+    private WebhookEndpointResponse toResponse(WebhookEndpoint endpoint) {
+        return new WebhookEndpointResponse(
+                endpoint.getId(),
+                endpoint.getName()
+        );
     }
 }
