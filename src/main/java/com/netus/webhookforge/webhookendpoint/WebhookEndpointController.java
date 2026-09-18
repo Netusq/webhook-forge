@@ -1,7 +1,9 @@
 package com.netus.webhookforge.webhookendpoint;
 
+import com.netus.webhookforge.common.validation.UuidV7Validator;
 import com.netus.webhookforge.webhookendpoint.dto.CreateEndpointRequest;
 import com.netus.webhookforge.webhookendpoint.dto.WebhookEndpointResponse;
+import com.netus.webhookforge.webhookevent.dto.WebhookEventResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,8 @@ class WebhookEndpointController {
     }
 
     @GetMapping("/api/v1/endpoints/{id}")
-    public ResponseEntity<?> getEndpointByToken(@PathVariable String id){
-        if (!isValidUuidV7(id)){
+    public ResponseEntity<?> getEndpointByToken(@PathVariable String id) {
+        if (!UuidV7Validator.isValid(id)) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Ошибка: Передан неверный формат токена. Ожидается UUIDv7");
@@ -38,23 +40,11 @@ class WebhookEndpointController {
 
         UUID token = UUID.fromString(id);
 
-        try{
+        try {
             WebhookEndpointResponse response = service.getEndpointById(token);
             return ResponseEntity.ok(response);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    private boolean isValidUuidV7(String uuidStr) {
-        try {
-            if (uuidStr == null || uuidStr.length() != 36) {
-                return false;
-            }
-            UUID uuid = UUID.fromString(uuidStr);
-            return uuid.version() == 7;
         } catch (IllegalArgumentException e) {
-            return false;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }

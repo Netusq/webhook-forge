@@ -80,3 +80,29 @@ Content-Type: application/json
 {
   "event": "invalid-token"
 }
+
+### 8. Получить events по endpoint
+GET http://localhost:8080/api/v1/endpoints/01a09673-fd2b-7a54-a323-14ac44278f63/events
+
+
+### 9. Много полей
+POST http://localhost:8080/h/01a09673-fd2b-7a54-a323-14ac44278f63
+Content-Type: application/json
+User-Agent: WebhookForge-Test
+X-GitHub-Event: push
+X-Test-Header: hello
+
+{
+  "event": "test",
+  "message": "check all fields",
+  "value": 123
+}
+
+### 10. F
+POST http://localhost:8080/h/01a09673-fd2b-7a54-a323-14ac44278f63
+Content-Type: application/json
+
+{
+  "event": "test",
+  "message": "hello"
+}

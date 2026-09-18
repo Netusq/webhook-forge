@@ -18,7 +18,7 @@ import java.time.Instant;
 public class WebhookEvent {
     @Id
     @SequenceGenerator(name = "webhook_event_seq_gen", sequenceName = "webhook_event_seq", allocationSize = 50)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "webhook_event_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "webhook_event_seq_gen")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -27,12 +27,25 @@ public class WebhookEvent {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String headers;
+
+    @Column(columnDefinition = "TEXT")
+    private String contentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "http_method", nullable = false)
+    private WebhookHttpMethod method;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    public WebhookEvent(WebhookEndpoint endpoint, String body){
+    public WebhookEvent(WebhookEndpoint endpoint, String body, String headers, String contentType, WebhookHttpMethod method) {
         this.endpoint = endpoint;
         this.body = body;
+        this.headers = headers;
+        this.contentType = contentType;
+        this.method = method;
     }
 }
